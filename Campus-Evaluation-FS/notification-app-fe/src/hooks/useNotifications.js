@@ -1,20 +1,22 @@
-import { useState, useEffect } from "react";
-import { fetchNotifications } from "../apis/notifications";
+import { useEffect, useState } from "react";
+import { fetchNotifications } from "../api/notifications";
 
 export function useNotifications() {
   const [notifications, setNotifications] = useState([]);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const load = async () => {
+    async function load() {
       const data = await fetchNotifications();
-      setNotifications(data.notifications ?? []);
-    };
+      setNotifications(data);
+    }
 
     load();
-  }, [notifications]);
+  }, []);
 
-  const totalPages = 0;
-
-  return { notifications, total, totalPages, loading: false, error: true };
+  return {
+    notifications,
+    loading: false,
+    error: false,
+    totalPages: 1,
+  };
 }

@@ -21,18 +21,21 @@ export function NotificationsPage() {
 
   const { notifications, totalPages, loading, error } = useNotifications();
 
-  const unreadCount = 2;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
-  const handleFilterChange = (newFilter) => {
-
+  const handleFilterChange = (_, newFilter) => {
+    setFilter(newFilter);
   };
-
   const handlePageChange = (_, newPage) => {
-
+    setPage(newPage);
   };
-
   return (
     <Box sx={{ maxWidth: 720, mx: "auto", px: 2, py: 4 }}>
+      <Stack spacing={2}>
+        {notifications.map((notification) => (
+          <NotificationCard key={notification.id} notification={notification} />
+        ))}
+      </Stack>
       <Stack direction="row" alignItems="center" spacing={1.5} mb={3}>
         <Badge badgeContent={unreadCount} color="primary" max={99}>
           <NotificationsIcon sx={{ fontSize: 28 }} />
